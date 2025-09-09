@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { Roboto } from 'next/font/google';
 import Head from 'next/head';
@@ -8,119 +8,6 @@ const roboto = Roboto({
   subsets: ['latin'],
   weight: ['300', '400', '500', '700'],
 });
-
-const Slider = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const slides = [
-    {
-      image: '/images/hero-bg.jpg',
-      title: 'Leading Manufacturer of Fibreglass Products',
-      description: 'Delivering quality and innovation in fibreglass manufacturing since 1990',
-    },
-    {
-      image: '/images/product-placeholder.jpg',
-      title: 'Custom Solutions for Every Need',
-      description: 'Specialized fibreglass products tailored to your requirements',
-    },
-    {
-      image: '/images/hero-bg.jpg',
-      title: 'Quality That Lasts',
-      description: 'Built with precision and care for long-lasting performance',
-    },
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000); // Change slide every 5 seconds
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
-  return (
-    <>
-      {slides.map((slide, index) => (
-        <div
-          key={index}
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-black/70">
-            <Image
-              src={slide.image}
-              alt={`Slide ${index + 1}`}
-              fill
-              className="object-cover mix-blend-overlay"
-              priority
-            />
-          </div>
-          <div className="relative container mx-auto px-4 h-full flex items-center">
-            <div className="max-w-2xl text-white">
-              <h2 className="text-5xl font-bold mb-6 transition-transform duration-500 transform translate-y-0 opacity-100">
-                {slide.title}
-              </h2>
-              <p className="text-xl mb-8 text-gray-200 transition-transform duration-500 delay-200 transform translate-y-0 opacity-100">
-                {slide.description}
-              </p>
-              <div className="flex space-x-4 transition-transform duration-500 delay-400 transform translate-y-0 opacity-100">
-                <Link href="/products" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium">
-                  Explore Products
-                </Link>
-                <Link href="/contact" className="border border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-900">
-                  Contact Us
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-
-      {/* Slider Controls */}
-      <div className="absolute bottom-5 left-0 right-0 flex justify-center space-x-2">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide ? 'bg-white scale-125' : 'bg-white/50 scale-100'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
-
-      {/* Arrow Controls */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-all duration-300 hover:scale-110"
-        aria-label="Previous slide"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-all duration-300 hover:scale-110"
-        aria-label="Next slide"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
-    </>
-  );
-};
 
 export default function Home() {
   return (
@@ -182,9 +69,35 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero Section with Slider */}
-      <section className="relative bg-gray-900 h-[600px] overflow-hidden">
-        <Slider />
+      {/* Hero Section */}
+      <section className="relative bg-gray-900 h-[600px]">
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-black/70">
+          <Image
+            src="/images/hero-bg.jpg"
+            alt="Manufacturing Facility"
+            fill
+            className="object-cover mix-blend-overlay"
+            priority
+          />
+        </div>
+        <div className="relative container mx-auto px-4 h-full flex items-center">
+          <div className="max-w-2xl text-white">
+            <h2 className="text-5xl font-bold mb-6">
+              Leading Manufacturer of Fibreglass Products
+            </h2>
+            <p className="text-xl mb-8 text-gray-200">
+              Delivering quality and innovation in fibreglass manufacturing since 1990
+            </p>
+            <div className="flex space-x-4">
+              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium">
+                Explore Products
+              </button>
+              <button className="border border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-900">
+                Contact Us
+              </button>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Features Section */}
